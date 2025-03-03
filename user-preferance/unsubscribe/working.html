@@ -8,28 +8,32 @@
         document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const userEmail = urlParams.get("user");
-            const apiUrl = "https://lp7co7dh79.execute-api.us-west-2.amazonaws.com/Prod/user-preferance/unsubscribe?user=" + encodeURIComponent(userEmail);
-            
-            if (userEmail) {
-                fetch(apiUrl, { method: "GET" })
-                    .then(response => response.text()) // Read response as text instead of JSON
-                    .then(data => {
-                        document.getElementById("message").innerText = `${userEmail} has successfully unsubscribed and would no longer receive these emails.`;
-                        document.getElementById("message2").innerText = data;
-                    })
-                    .catch(error => {
-                        console.log(error)
-                        document.getElementById("message").innerText = "An error occurred. Please try again later.";
-                    });
-            } else {
+
+            if (!userEmail) {
                 document.getElementById("message").innerText = "Invalid request. Email not found.";
+                return;
             }
+
+            const apiUrl = `https://lp7co7dh79.execute-api.us-west-2.amazonaws.com/Prod/user-preferance/unsubscribe?user=${encodeURIComponent(userEmail)}`;
+
+            fetch(apiUrl, { method: "GET" })
+                .then(response => response.text()) // Read response as text (API might return plain text)
+                .then(data => {
+                    document.getElementById("message").innerText = `We're sorry to see you go. ${userEmail} has been unsubscribed. You will no longer receive our emails.`;
+                    document.getElementById("message2").innerHTML = `If you change your mind, you can resubscribe here: 
+                        <a href="https://mailsaviour.online/user-preferance/subscribe/working.html?user=${encodeURIComponent(userEmail)}" 
+                        style="color: #007bff; text-decoration: none;">Subscribe here</a>.`;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("message").innerText = "An error occurred while processing your request. Please try again later.";
+                });
         });
     </script>
 </head>
 <body>
     <h1>Unsubscribe</h1>
     <p id="message">Processing your request...</p>
-    <p id="message2">Processing your request...</p>
+    <p id="message2"></p>
 </body>
 </html>
