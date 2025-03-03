@@ -6,28 +6,30 @@
     <title>Unsubscribe</title>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userEmail = urlParams.get("user");
-        const apiUrl = "https://lp7co7dh79.execute-api.us-west-2.amazonaws.com/Prod/user-preferance/unsubscribe?user=" + encodeURIComponent(userEmail);
-    
-        if (userEmail) {
-            fetch(apiUrl, { method: "GET" })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("message").innerText = data.message; // Access data.message
-                })
-                .catch(error => {
-                    console.log(error);
-                    document.getElementById("message").innerText = "An error occurred. Please try again later.";
-                });
-        } else {
-            document.getElementById("message").innerText = "Invalid request. Email not found.";
-        }
-    });
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get("user");
+            const apiUrl = "https://lp7co7dh79.execute-api.us-west-2.amazonaws.com/Prod/user-preferance/unsubscribe?user=" + encodeURIComponent(userEmail);
+            
+            if (userEmail) {
+                fetch(apiUrl, { method: "GET" })
+                    .then(response => response.text()) // Read response as text instead of JSON
+                    .then(data => {
+                        document.getElementById("message").innerText = `${userEmail} has successfully unsubscribed and would no longer receive these emails.`;
+                        document.getElementById("message2").innerText = data;
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        document.getElementById("message").innerText = "An error occurred. Please try again later.";
+                    });
+            } else {
+                document.getElementById("message").innerText = "Invalid request. Email not found.";
+            }
+        });
     </script>
 </head>
 <body>
     <h1>Unsubscribe</h1>
     <p id="message">Processing your request...</p>
+    <p id="message2">Processing your request...</p>
 </body>
 </html>
