@@ -14,8 +14,7 @@
                 fetch(apiUrl, { method: "GET" })
                     .then(response => response.text()) // Read response as text instead of JSON
                     .then(data => {
-                        document.getElementById("message").innerText = `${userEmail} has successfully subscribed and will start receiving these emails.`;
-                        document.getElementById("message2").innerText = data;
+                        document.getElementById("message").innerText = `Thank you for subscribing, ${userEmail}! You'll receive our emails`;
                     })
                     .catch(error => {
                         console.log(error)
@@ -30,6 +29,5 @@
 <body>
     <h1>Subscribe</h1>
     <p id="message">Processing your request...</p>
-    <p id="message2">Processing your request...</p>
 </body>
 </html>
