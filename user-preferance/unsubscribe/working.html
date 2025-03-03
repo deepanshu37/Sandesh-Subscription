@@ -12,11 +12,13 @@
             
             if (userEmail) {
                 fetch(apiUrl, { method: "GET" })
-                    .then(response => response.json())
+                    .then(response => response.text()) // Read response as text instead of JSON
                     .then(data => {
                         document.getElementById("message").innerText = `${userEmail} has successfully unsubscribed and would no longer receive these emails.`;
+                        document.getElementById("message2").innerText = data;
                     })
                     .catch(error => {
+                        console.log(error)
                         document.getElementById("message").innerText = "An error occurred. Please try again later.";
                     });
             } else {
@@ -28,5 +30,6 @@
 <body>
     <h1>Unsubscribe</h1>
     <p id="message">Processing your request...</p>
+    <p id="message2">Processing your request...</p>
 </body>
 </html>
