@@ -29,7 +29,7 @@ function validate() {
         event.preventDefault();
         const form = document.getElementById('emailForm');
         const formData = new FormData(form);
-                    fetch('/sendGmail', {
+                    fetch('https://backendtesting-ek7y.onrender.com/sendGmail', {
                         method: 'POST',
                         body: formData
                     })
